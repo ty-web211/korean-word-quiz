@@ -3,215 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>한국어 단어 퀴즈</title>
+<title>🍀 Korean Word Quiz Deluxe</title>
 
 <style>
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+ box-sizing:border-box;
+ font-family:"Pretendard","Arial",sans-serif;
 }
 
 body{
-    font-family:'Segoe UI',sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    padding:20px;
+ margin:0;
+ min-height:100vh;
+ background:linear-gradient(135deg,#667eea,#764ba2);
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ color:white;
 }
 
 .container{
-    width:100%;
-    max-width:650px;
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(15px);
-    border-radius:25px;
-    padding:40px;
-    text-align:center;
-    color:white;
-    box-shadow:0 8px 32px rgba(0,0,0,0.2);
+ width:90%;
+ max-width:430px;
+ background:rgba(255,255,255,0.15);
+ backdrop-filter:blur(15px);
+ border-radius:25px;
+ padding:30px;
+ text-align:center;
+ box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 
 h1{
-    font-size:32px;
-    margin-bottom:20px;
-}
-
-.subtitle{
-    opacity:0.9;
-    margin-bottom:30px;
-}
-
-.word{
-    font-size:55px;
-    font-weight:bold;
-    margin:30px 0;
-}
-
-#meaning{
-    font-size:22px;
-    min-height:40px;
-    margin-bottom:25px;
-}
-
-button{
-    border:none;
-    border-radius:50px;
-    padding:14px 30px;
-    font-size:17px;
-    cursor:pointer;
-    margin:8px;
-    transition:0.3s;
-}
-
-button:hover{
-    transform:translateY(-3px);
-}
-
-.show{
-    background:#22c55e;
-    color:white;
-}
-
-.next{
-    background:#3b82f6;
-    color:white;
-}
-
-.score-box{
-    margin-top:30px;
-    background:rgba(255,255,255,0.15);
-    padding:20px;
-    border-radius:15px;
+ font-size:28px;
+ margin-bottom:20px;
 }
 
 .score{
-    font-size:22px;
-    margin-bottom:15px;
+ display:flex;
+ justify-content:space-between;
+ margin-bottom:20px;
+ font-size:15px;
+}
+
+.card{
+ background:white;
+ color:#333;
+ border-radius:20px;
+ padding:35px 20px;
+ margin:20px 0;
+ font-size:32px;
+ font-weight:bold;
+ animation:pop .4s;
+}
+
+@keyframes pop{
+ from{
+  transform:scale(.8);
+  opacity:0;
+ }
+ to{
+  transform:scale(1);
+  opacity:1;
+ }
+}
+
+.meaning{
+ font-size:20px;
+ margin-top:15px;
+ color:#555;
+}
+
+button{
+ border:none;
+ padding:14px 20px;
+ margin:8px;
+ border-radius:30px;
+ font-size:16px;
+ cursor:pointer;
+ background:white;
+ color:#764ba2;
+ font-weight:bold;
+ transition:.3s;
+}
+
+button:hover{
+ transform:scale(1.08);
+}
+
+.spin{
+ font-size:70px;
+ animation:rotate 2s infinite linear;
+}
+
+@keyframes rotate{
+ from{transform:rotate(0)}
+ to{transform:rotate(360deg)}
+}
+
+.hidden{
+ display:none;
 }
 
 .progress{
-    width:100%;
-    height:14px;
-    background:rgba(255,255,255,0.2);
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.bar{
-    height:100%;
-    width:0%;
-    background:white;
-    transition:0.5s;
-}
-
-.complete{
-    margin-top:15px;
-    font-size:18px;
-    color:#ffe082;
-    font-weight:bold;
+ margin-top:15px;
+ font-size:14px;
 }
 
 </style>
 </head>
 
+
 <body>
 
 <div class="container">
 
-<h1>📚 한국어 단어 퀴즈</h1>
-
-<p class="subtitle">
-📖 한국어 학습 플랫폼에 오신 것을 환영합니다.
-</p>
-
-<div class="word" id="word">
-시작하기
-</div>
-
-<p id="meaning">
-버튼을 눌러 시작하세요.
-</p>
-
-<button class="show" onclick="showMeaning()">
-뜻 보기
-</button>
-
-<button class="next" onclick="nextWord()">
-다음 단어
-</button>
-
-<div class="score-box">
+<h1>🍀 Korean Word Quiz Deluxe</h1>
 
 <div class="score">
-학습한 단어 수 : <span id="count">0</span>
+<div>⭐ 점수: <span id="score">0</span></div>
+<div>🔥 연속: <span id="streak">0</span></div>
 </div>
+
+
+<div id="wheel" class="spin">
+🎡
+</div>
+
+
+<div class="card">
+<div id="word">준비</div>
+
+<div id="meaning" class="meaning hidden">
+</div>
+</div>
+
+
+<button onclick="startQuiz()">
+🎯 시작
+</button>
+
+<button onclick="showMeaning()">
+💡 뜻 보기
+</button>
+
+<button onclick="speak()">
+🔊 발음
+</button>
+
+<button onclick="nextWord()">
+➡️ 다음
+</button>
+
 
 <div class="progress">
-<div class="bar" id="bar"></div>
+학습: <span id="count">0</span> / <span id="total">0</span>
 </div>
 
-<div class="complete" id="complete"></div>
 
 </div>
-
-</div>
-
 <script>
 
 const words = [
-{word:"사랑", meaning:"爱情"},
-{word:"희망", meaning:"希望"},
-{word:"행복", meaning:"幸福"},
-{word:"문화", meaning:"文化"},
-{word:"전통", meaning:"传统"},
-{word:"우정", meaning:"友情"},
-{word:"미래", meaning:"未来"},
-{word:"감동", meaning:"感动"},
-{word:"자유", meaning:"自由"},
-{word:"문학", meaning:"文学"}
+ ["사랑","爱"],
+ ["학교","学校"],
+ ["친구","朋友"],
+ ["책","书"],
+ ["물","水"],
+ ["밥","饭"],
+ ["고양이","猫"],
+ ["강아지","狗"],
+ ["행복","幸福"],
+ ["여행","旅行"]
 ];
 
-let current;
-let count = 0;
+
+let index=0;
+let score=0;
+let streak=0;
+let started=false;
+
+
+document.getElementById("total").innerText=words.length;
+
+
+
+function startQuiz(){
+
+ started=true;
+
+ document.getElementById("wheel").style.display="none";
+
+ nextWord();
+
+}
+
+
 
 function nextWord(){
 
-    current = words[Math.floor(Math.random()*words.length)];
+ if(!started){
+  return;
+ }
 
-    document.getElementById("word").innerText = current.word;
 
-    document.getElementById("meaning").innerText =
-    "뜻을 맞혀보세요!";
+ index=Math.floor(Math.random()*words.length);
 
-    count++;
 
-    document.getElementById("count").innerText = count;
+ document.getElementById("word").innerText=
+ words[index][0];
 
-    let progress = Math.min((count/10)*100,100);
 
-    document.getElementById("bar").style.width =
-    progress + "%";
+ document.getElementById("meaning").classList.add("hidden");
 
-    if(count >= 10){
-        document.getElementById("complete").innerText =
-        "🎉 학습 완료!";
-    }
+
+ document.getElementById("meaning").innerText=
+ words[index][1];
+
+
+ document.getElementById("count").innerText=
+ Number(document.getElementById("count").innerText)+1;
+
+
 }
+
+
 
 function showMeaning(){
 
-    if(current){
-        document.getElementById("meaning").innerText =
-        current.meaning;
-    }
+ document.getElementById("meaning")
+ .classList.remove("hidden");
+
+
+ score+=10;
+
+ streak++;
+
+ document.getElementById("score").innerText=score;
+
+ document.getElementById("streak").innerText=streak;
+
 }
 
+
+
+function speak(){
+
+ let text=
+ document.getElementById("word").innerText;
+
+
+ let speech=new SpeechSynthesisUtterance(text);
+
+ speech.lang="ko-KR";
+
+ speechSynthesis.speak(speech);
+
+}
+
+
+
 </script>
+
 
 </body>
 </html>
