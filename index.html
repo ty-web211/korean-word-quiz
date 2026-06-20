@@ -124,11 +124,6 @@ button:hover{
 
 <h1>🍀 Korean Word Quiz</h1>
 
-<div class="score">
-<div>⭐ 점수: <span id="score">0</span></div>
-<div>🔥 연속: <span id="streak">0</span></div>
-</div>
-
 
 <div id="wheel">
   <div class="wheel">🎡</div>
@@ -251,12 +246,9 @@ function showMeaning(){
 
  score+=10;
 
- streak++;
-
- document.getElementById("score").innerText=score;
-
- document.getElementById("streak").innerText=streak;
-
+ function showMeaning(){
+ document.getElementById("meaning")
+ .classList.remove("hidden");
 }
 
 
