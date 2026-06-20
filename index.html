@@ -313,7 +313,8 @@ new SpeechSynthesisUtterance(text);
 speech.lang="ko-KR";
 
 
-speechSynthesis.speak(speech);
+window.speechSynthesis.cancel();
+window.speechSynthesis.speak(speech);
 
 
 }
