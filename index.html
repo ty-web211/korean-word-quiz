@@ -1,33 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>오늘의 메뉴 추천기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국어 단어 퀴즈</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#f5f7fa;
+    padding:50px;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    color:#333;
+}
+
+.word{
+    font-size:40px;
+    margin:30px;
+    font-weight:bold;
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.show{
+    background:#4CAF50;
+    color:white;
+}
+
+.next{
+    background:#2196F3;
+    color:white;
+}
+
+.score{
+    margin-top:20px;
+    font-size:20px;
+}
+</style>
 </head>
 
-<body style="text-align:center; font-family:sans-serif; margin-top:100px;">
+<body>
 
-<h1>🍔 오늘의 메뉴 추천기 🍕</h1>
+<div class="container">
 
-<button onclick="menu()">메뉴 추천받기</button>
+<h1>📚 한국어 단어 퀴즈</h1>
 
-<h2 id="result">버튼을 눌러보세요!</h2>
+<div class="word" id="word">시작하기</div>
+
+<p id="meaning">버튼을 눌러 시작하세요.</p>
+
+<button class="show" onclick="showMeaning()">뜻 보기</button>
+
+<button class="next" onclick="nextWord()">다음 단어</button>
+
+<div class="score">
+학습한 단어 수 : <span id="count">0</span>
+</div>
+
+</div>
 
 <script>
-function menu(){
-const menus=[
-"치킨",
-"피자",
-"햄버거",
-"돈까스",
-"김밥",
-"떡볶이",
-"마라탕"
+
+const words = [
+{word:"사랑", meaning:"爱情"},
+{word:"희망", meaning:"希望"},
+{word:"행복", meaning:"幸福"},
+{word:"문화", meaning:"文化"},
+{word:"전통", meaning:"传统"},
+{word:"우정", meaning:"友情"},
+{word:"미래", meaning:"未来"},
+{word:"감동", meaning:"感动"},
+{word:"자유", meaning:"自由"},
+{word:"문학", meaning:"文学"}
 ];
 
-const random=menus[Math.floor(Math.random()*menus.length)];
-document.getElementById("result").innerHTML=random;
+let current;
+let count = 0;
+
+function nextWord(){
+    current = words[Math.floor(Math.random()*words.length)];
+    document.getElementById("word").innerText = current.word;
+    document.getElementById("meaning").innerText = "뜻을 맞혀보세요!";
+    count++;
+    document.getElementById("count").innerText = count;
 }
+
+function showMeaning(){
+    if(current){
+        document.getElementById("meaning").innerText = current.meaning;
+    }
+}
+
 </script>
 
 </body>
