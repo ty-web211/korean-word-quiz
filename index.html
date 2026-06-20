@@ -134,14 +134,17 @@ button:hover{
   <div class="wheel">🎡</div>
 </div>
 
-
-<div class="card">
+<div class="card" onclick="showMeaning()">
 <div id="word">준비</div>
 
 <div id="meaning" class="meaning hidden">
 </div>
-</div>
 
+<p style="font-size:14px;color:#888">
+👇 클릭해서 뜻 보기
+</p>
+
+</div>
 
 <button onclick="startQuiz()">
 🎯 시작
@@ -160,8 +163,10 @@ button:hover{
 </button>
 
 
-<div class="progress">
-학습: <span id="count">0</span> / <span id="total">0</span>
+<div style="margin-top:15px;background:#ddd;border-radius:20px;height:12px;">
+<div id="bar"
+style="height:12px;width:0%;background:#764ba2;border-radius:20px;">
+</div>
 </div>
 
 
@@ -228,7 +233,12 @@ function nextWord(){
  document.getElementById("count").innerText=
  Number(document.getElementById("count").innerText)+1;
 
+let percent =
+(Number(document.getElementById("count").innerText)
+/ words.length) * 100;
 
+document.getElementById("bar").style.width =
+percent + "%";
 }
 
 
