@@ -89,10 +89,25 @@ button:hover{
  transform:scale(1.08);
 }
 
-.spin{
- font-size:70px;
- animation:rotate 2s infinite linear;
+#wheel{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ height:120px;
 }
+
+.wheel{
+ font-size:80px;
+ animation:rotate 3s linear infinite;
+}
+
+@keyframes rotate{
+ from{
+  transform:rotate(0deg);
+ }
+ to{
+  transform:rotate(360deg);
+ }
 
 @keyframes rotate{
  from{transform:rotate(0)}
@@ -124,8 +139,8 @@ button:hover{
 </div>
 
 
-<div id="wheel" class="spin">
-🎡
+<div id="wheel">
+  <div class="wheel">🎡</div>
 </div>
 
 
