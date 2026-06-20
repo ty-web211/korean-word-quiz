@@ -3,58 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>한국어 단어 퀴즈</title>
 
 <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background:#f5f7fa;
-    padding:50px;
+    font-family:'Segoe UI',sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    padding:20px;
 }
 
 .container{
-    max-width:600px;
-    margin:auto;
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
+    width:100%;
+    max-width:650px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    color:white;
+    box-shadow:0 8px 32px rgba(0,0,0,0.2);
 }
 
 h1{
-    color:#333;
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+.subtitle{
+    opacity:0.9;
+    margin-bottom:30px;
 }
 
 .word{
-    font-size:40px;
-    margin:30px;
+    font-size:55px;
     font-weight:bold;
+    margin:30px 0;
+}
+
+#meaning{
+    font-size:22px;
+    min-height:40px;
+    margin-bottom:25px;
 }
 
 button{
-    padding:12px 25px;
-    margin:10px;
     border:none;
-    border-radius:10px;
+    border-radius:50px;
+    padding:14px 30px;
+    font-size:17px;
     cursor:pointer;
-    font-size:16px;
+    margin:8px;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
 }
 
 .show{
-    background:#4CAF50;
+    background:#22c55e;
     color:white;
 }
 
 .next{
-    background:#2196F3;
+    background:#3b82f6;
     color:white;
 }
 
-.score{
-    margin-top:20px;
-    font-size:20px;
+.score-box{
+    margin-top:30px;
+    background:rgba(255,255,255,0.15);
+    padding:20px;
+    border-radius:15px;
 }
+
+.score{
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.progress{
+    width:100%;
+    height:14px;
+    background:rgba(255,255,255,0.2);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar{
+    height:100%;
+    width:0%;
+    background:white;
+    transition:0.5s;
+}
+
+.complete{
+    margin-top:15px;
+    font-size:18px;
+    color:#ffe082;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -64,16 +125,38 @@ button{
 
 <h1>📚 한국어 단어 퀴즈</h1>
 
-<div class="word" id="word">시작하기</div>
+<p class="subtitle">
+한국어 단어를 학습하고 뜻을 맞혀보세요!
+</p>
 
-<p id="meaning">버튼을 눌러 시작하세요.</p>
+<div class="word" id="word">
+시작하기
+</div>
 
-<button class="show" onclick="showMeaning()">뜻 보기</button>
+<p id="meaning">
+버튼을 눌러 시작하세요.
+</p>
 
-<button class="next" onclick="nextWord()">다음 단어</button>
+<button class="show" onclick="showMeaning()">
+뜻 보기
+</button>
+
+<button class="next" onclick="nextWord()">
+다음 단어
+</button>
+
+<div class="score-box">
 
 <div class="score">
 학습한 단어 수 : <span id="count">0</span>
+</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div class="complete" id="complete"></div>
+
 </div>
 
 </div>
@@ -97,16 +180,34 @@ let current;
 let count = 0;
 
 function nextWord(){
+
     current = words[Math.floor(Math.random()*words.length)];
+
     document.getElementById("word").innerText = current.word;
-    document.getElementById("meaning").innerText = "뜻을 맞혀보세요!";
+
+    document.getElementById("meaning").innerText =
+    "뜻을 맞혀보세요!";
+
     count++;
+
     document.getElementById("count").innerText = count;
+
+    let progress = Math.min((count/10)*100,100);
+
+    document.getElementById("bar").style.width =
+    progress + "%";
+
+    if(count >= 10){
+        document.getElementById("complete").innerText =
+        "🎉 학습 완료!";
+    }
 }
 
 function showMeaning(){
+
     if(current){
-        document.getElementById("meaning").innerText = current.meaning;
+        document.getElementById("meaning").innerText =
+        current.meaning;
     }
 }
 
